@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<header th:fragment="body-header-login">
+    <ul class="nav justify-post-end p-3">
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" th:href="@{/templates/member/{memberId}(memberId=${user.id})}">
+                MY PAGE
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" th:href="@{/templates/member/{memberId}/like(memberId=${user.id})}">
+                MY LIKE
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="/members/logout">
+                LOGOUT
+            </a>
+        </li>
+    </ul>
+</header>
+<header th:replace="~{fragments/body-menu :: body-menu}"/>
+

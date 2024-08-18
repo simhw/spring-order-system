@@ -1,0 +1,74 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"/>
+<style>
+    #image-upload-btn {
+        display: none;
+    }
+    .profile-circle-image {
+        max-width: 80%;
+        height: 80%;
+        border-radius: 80%;
+    }
+</style>
+<body>
+<header th:replace="~{fragments/body-header :: body-header}"/>
+<div class="container w-50 mx-auto">
+    <div class="py-5 text-center"><h5>회원정보수정</h5></div>
+    <hr class="my-4">
+
+    <form class="form-group" th:object="${form}" th:action method="post" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{id}">
+        <div class="md-3 text-center">
+            <label for="image-upload-btn">
+                <img th:if="*{profileImage}" class="profile-circle-image" th:src="|/profile/${profileImage}|">
+                <img th:unless="*{profileImage}" class="profile-circle-image" src="/icon/user.svg">
+                <p>찾아보기</p>
+            </label>
+            <input class="form-control" type="file" th:field="*{profileImageFile}" id="image-upload-btn">
+        </div>
+        <div class="mb-3">
+            <label th:for="email">이메일</label>
+            <input readonly type="text" th:field="*{email}" class="form-control" th:errorclass="is-invalid"
+                   placeholder="아이디(이메일)">
+            <div class="invalid-feedback" th:errors="*{email}"></div>
+        </div>
+        <div class="mb-3">
+            <label th:for="nickname">닉네임</label>
+            <input type="text" th:field="*{nickname}" class="form-control" th:errorclass="is-invalid"
+                   placeholder="닉네임(2자 ~ 20자)">
+            <div class="invalid-feedback" th:errors="*{nickname}"></div>
+        </div>
+        <div class="mb-3">
+            <label th:for="gender">성별</label>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" id="gender1"
+                       th:checked="${form.gender =='MALE'}" th:value="MALE">
+                <label class="form-check-label" for="gender1">남성</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" id="gender2"
+                       th:checked="${form.gender == 'FEMALE'}" th:value="FEMALE">
+                <label class="form-check-label" for="gender2">여성</label>
+            </div>
+            <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="gender" id="gender3"
+                       th:checked="${form.gender == 'OTHER' or form.gender == null}" th:value="OTHER">
+                <label class="form-check-label" for="gender3">선택하지 않음</label>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label th:for="introduce">소개</label>
+            <input type="text" th:field="*{introduce}" class="form-control" th:errorclass="is-invalid"
+                   placeholder="소개(최대 50자)">
+            <div class="invalid-feedback" th:errors="*{introduce}"></div>
+        </div>
+        <div class="d-grid gap-2">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">완료</button>
+        </div>
+    </form>
+    <hr class="my-4">
+
+</div>
+</body>
+</html>

@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"/>
+<body>
+<header th:replace="~{fragments/body-header :: body-header}"/>
+<header th:replace="~{fragments/body-menu :: body-menu}"/>
+<div class="container w-25">
+    <div class="py-5 text-center">
+        <h5>로그인</h5>
+    </div>
+    <hr class="my-4">
+
+    <form class="form-group" th:object="${form}" method="post">
+        <div class="mb-3">
+            <label th:for="email">이메일</label>
+            <input type="text" id="email" th:field="*{email}" placeholder="아이디(이메일)" class="form-control"
+                   th:errorclass="is-invalid">
+            <div class="invalid-feedback" th:errors="*{email}"></div>
+        </div>
+        <div class="mb-3">
+            <label th:for="password">비밀번호</label>
+            <input type="password" id="password" th:field="*{password}" placeholder="비밀번호" class="form-control"
+                   th:errorclass="is-invalid">
+            <div class="invalid-feedback" th:errors="*{password}"></div>
+        </div>
+        <div class="d-grid gap-2">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">로그인</button>
+        </div>
+    </form>
+    <hr class="my-4">
+
+    <div class="row text-center">
+        <div class="col">
+            <a href="/members/new">회원가입</a>
+        </div>
+        <div class="col">
+            <a href="/members/new">아이디 찾기</a>
+        </div>
+        <div class="col">
+            <a href="/members/new">비밀번호 재설정</a>
+        </div>
+    </div>
+    <br/>
+</div>
+</body>
+</html>

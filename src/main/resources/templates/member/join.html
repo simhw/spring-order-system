@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"/>
+<body>
+<header th:replace="~{fragments/body-header :: body-header}"/>
+
+<div class="container w-50 mx-auto">
+    <div class="py-5 text-center">
+        <h5>회원가입</h5>
+    </div>
+    <hr class="my-4">
+
+    <form class="form-group" th:object="${form}" method="post">
+        <div class="mb-3">
+            <label th:for="email">이메일</label>
+            <input type="text" id="email" th:field="*{email}" placeholder="아이디(이메일)" class="form-control"
+                   th:errorclass="is-invalid">
+            <div class="invalid-feedback" th:errors="*{email}"></div>
+        </div>
+
+        <div class="mb-3">
+            <label th:for="password">비밀번호</label>
+            <input type="password" id="password" th:field="*{password}" placeholder="비밀번호" class="form-control"
+                   th:errorclass="is-invalid">
+            <span id="passwordHelpInline" class="form-text">영문, 숫자를 포함한 8자 이상의 비밀번호를 입력해주세요.</span>
+            <div class="invalid-feedback" th:errors="*{password}"></div>
+        </div>
+        <div class="mb-3">
+            <label th:for="confirmPassword">비밀번호 확인</label>
+            <input type="password" id="confirmPassword" th:field="*{confirmPassword}" placeholder="비밀번호 확인"
+                   class="form-control" th:errorclass="is-invalid">
+            <div class="invalid-feedback" th:errors="*{confirmPassword}"></div>
+        </div>
+        <div class="mb-3">
+            <label th:for="nickname">닉네임</label>
+            <input type="text" id="nickname" th:field="*{nickname}" placeholder="닉네임(2자 ~ 20자)"
+                   class="form-control" th:errorclass="is-invalid">
+            <div class="invalid-feedback" th:errors="*{nickname}"></div>
+        </div>
+        <div class="d-grid gap-2">
+            <button class="btn btn-primary btn-lg btn-block" type="submit">완료</button>
+        </div>
+    </form>
+    <hr class="my-4">
+</div>
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/header :: header}"/>
+<body>
+<header th:replace="~{fragments/body-header :: body-header}"/>
+
+<div class="container-xl">
+    <div class="card w-70 mx-auto">
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-2 text-center">
+                    <img th:if="${data.profileImage}" class="profile-circle-image"
+                         th:src="|/profile/${data.profileImage}|">
+                    <img th:unless="${data.profileImage}" class="profile-circle-image" src="/icon/user.svg">
+                </div>
+                <div class="col-sm-10">
+                    <h5 class="card-title" th:text="${data.nickname}"></h5>
+                    <dl class="row row-cols-auto text-center">
+                        <div class="col">
+                            <dt>팔로워</dt>
+                            <dd>
+                                <a id="follower" class="link-dark link-underline-light"
+                                   th:text="${data.followerCount}"></a>
+                            </dd>
+                        </div>
+                        <div class="col">
+                            <dt>팔로잉</dt>
+                            <dd>
+                                <a id="followee" class="link-dark link-underline-light"
+                                   th:text="${data.followeeCount}"></a>
+                            </dd>
+                        </div>
+                    </dl>
+                    <p class="card-text" th:text="${data.introduce}"></p>
+                    <button type="button" class="btn btn-outline-secondary"
+                            th:onclick="|location.href='@{/members/{memberId}/edit(memberId = ${data.memberId})}'|">설정
+                    </button>
+                </div>
+            </div>
+            <hr class="my-3">
+
+            <div class="row text-center">
+                <div class="col">
+                    <img src="/icon/bookmark.svg">
+                    <p>스크랩북</p>
+                    <a></a>
+                </div>
+                <div class="col">
+                    <img src="/icon/heart.svg">
+                    <p>좋아요</p>
+                    <a></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+
+    <div id="member-post" class="w-60">
+        <h3>사진</h3>
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            <div class="col">
+                <div class="card h-100">
+                    <img src="..." class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h5 class="card-title">Card title</h5>
+                        <p class="card-text">post1</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br>
+
+        <div class="d-grid gap-2">
+            <button class="btn btn-outline-secondary" type="button" th:onclick="|location.href='@{/contents/new}'|">
+                사진 올리기
+            </button>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        let memberId = [[${data.memberId}]];
+
+        function fetchData(endpoint) {
+            $.ajax({
+                url: '/api/members/' + memberId + '/' + endpoint,
+                method: 'GET',
+                success: function (data) {
+                    display(data, endpoint);
+                },
+                error: function (error) {
+                    console.error('Error fetching ' + endpoint + ':', error);
+                }
+            });
+        }
+
+        function display(data, endpoint) {
+            let contents = $('#member-post');
+            contents.empty();
+
+            if (endpoint == 'follower') contents.append('<b>팔로워</b>');
+            else contents.append('<b>팔로잉</b>');
+
+            data.forEach(function (item) {
+                let listItem =
+                    '<div class="row text-center">' +
+                    '<div class="col-md-2">' +
+                    '<img class="rounded-circle" style="width: 40px;" src="/profile/' + item.profileImage + '"${item}">' +
+                    '</div>' +
+                    '<div class="col-md-2">' +
+                    '<p>' + item.nickname + '</p>' +
+                    '</div>' +
+                    '<div class="col-md-2 offset-md-6">' +
+                    '<button type="button" class="btn btn-outline-secondary">팔로잉</button>' +
+                    '</div>' +
+                    '</div>'
+                contents.append(listItem);
+            });
+        }
+
+        $('#follower').on('click', function (e) {
+            e.preventDefault();
+            fetchData('follower');
+        });
+
+        $('#followee').on('click', function (e) {
+            e.preventDefault();
+            fetchData('followee');
+        });
+    });
+</script>
+</body>
+</html>

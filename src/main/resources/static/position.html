@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" post="width=device-width, initial-scale=1.0">
+    <title>이미지 클릭 위치 추출</title>
+    <style>
+        #image-container {
+            position: relative;
+        }
+
+        #image-marker {
+            position: absolute;
+            background-color: red;
+            width: 10px;
+            height: 10px;a
+        }
+    </style>
+</head>
+<body>
+
+<div id="image-container">
+    <img id="product-image" src="/image/living-room.jpg" alt="Product Image">
+    <div id="image-marker"></div>
+</div>
+
+<script>
+    const imageContainer = document.getElementById('image-container');
+    const imageMarker = document.getElementById('image-marker');
+
+    imageContainer.addEventListener('click', function (event) {
+        const offsetX = event.offsetX;
+        const offsetY = event.offsetY;
+        // 클릭한 위치의 좌표를 출력하거나 다른 작업을 수행할 수 있습니다.
+        console.log('Clicked position:', offsetX, offsetY);
+
+        // 클릭한 위치에 마커를 이동합니다.
+        imageMarker.style.left = offsetX + 'px';
+        imageMarker.style.top = offsetY + 'px';
+    });
+</script>
+
+</body>
+</html>
