@@ -19,6 +19,9 @@ public class Product extends BaseEntity {
     @Column(name = "product_id")
     private Long id;
 
+    @Version
+    private Long version;
+
     private String name;
 
     private int price;
@@ -42,6 +45,7 @@ public class Product extends BaseEntity {
         this.name = name;
         this.price = price;
         this.stock = stock;
+        this.version = 1L;
     }
 
     public void increaseStock(int quantity) {
