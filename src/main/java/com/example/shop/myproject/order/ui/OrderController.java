@@ -18,8 +18,7 @@ public class OrderController {
 
     @PostMapping("")
     public Long placeOrder(@AuthenticationPrincipal UserDetailsImpl user, OrderRequest orderRequest) {
-        orderRequest.setOrdererId(user.getId());
-        Long orderId = placeOrderService.placeOrder(orderRequest);
-        return orderId;
+         orderRequest.setOrdererId(user.getId());
+        return placeOrderService.placeOrder(orderRequest);
     }
 }
