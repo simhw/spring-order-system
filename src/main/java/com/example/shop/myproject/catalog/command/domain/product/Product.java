@@ -19,9 +19,6 @@ public class Product extends BaseEntity {
     @Column(name = "product_id")
     private Long id;
 
-    @Version
-    private Long version;
-
     private String name;
 
     private int price;
@@ -38,14 +35,14 @@ public class Product extends BaseEntity {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    protected Product() {}
+    protected Product() {
+    }
 
     public Product(Long id, String name, int price, int stock) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.stock = stock;
-        this.version = 1L;
     }
 
     public void increaseStock(int quantity) {
@@ -53,10 +50,15 @@ public class Product extends BaseEntity {
     }
 
     public void decreaseStock(int quantity) {
+        validateStock(quantity);
+        stock -= quantity;
+    }
+
+    public void validateStock(int quantity) {
         int restStock = stock - quantity;
+
         if (restStock < 0) {
-            throw new NotEnoughStockException("NotEnoughStockException: " + stock);
+            throw new NotEnoughStockException("NotEnoughStockException " + stock);
         }
-        stock = restStock;
     }
 }

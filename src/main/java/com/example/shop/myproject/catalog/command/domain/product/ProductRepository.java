@@ -7,7 +7,6 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.Optional;
 
-
 public interface ProductRepository extends JpaRepository<Product, Long> {
     @Lock(LockModeType.OPTIMISTIC)
     @Query(value = "select p from Product p where p.id = :id")
