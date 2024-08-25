@@ -29,13 +29,16 @@ public class SecurityConfig {
 
         http.
                 authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/", "/api/*")
-                        .permitAll().anyRequest().authenticated())
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/api/categories/**").permitAll()
+                        .anyRequest().authenticated()
+                )
                 .formLogin(form -> form
                         .loginPage("/login")
                         .defaultSuccessUrl("/", true)
                         .failureForwardUrl("/login?error")
-                        .permitAll());
+                        .permitAll()
+                );
 
         return http.build();
     }
