@@ -27,6 +27,9 @@ public class Product extends BaseEntity {
 
     private String description;
 
+    @Enumerated(EnumType.STRING)
+    private ProductState state;
+
     @OneToMany(mappedBy = "product")
     @OrderColumn(name = "no")
     private List<Image> images = new ArrayList<>();
@@ -43,6 +46,16 @@ public class Product extends BaseEntity {
         this.name = name;
         this.price = price;
         this.stock = stock;
+        this.state = ProductState.SELLING;
+    }
+
+    public Product(String name, int price, int stock, String description, Category category) {
+        this.name = name;
+        this.price = price;
+        this.stock = stock;
+        this.description = description;
+        this.category = category;
+        this.state = ProductState.SELLING;
     }
 
     public void increaseStock(int quantity) {
@@ -58,7 +71,7 @@ public class Product extends BaseEntity {
         int restStock = stock - quantity;
 
         if (restStock < 0) {
-            throw new NotEnoughStockException("NotEnoughStockException " + stock);
+            throw new NotEnoughStockException("Stock: " + stock);
         }
     }
 }

@@ -1,6 +1,7 @@
 package com.example.shop.myproject.catalog.command.domain.category;
 
 import com.example.shop.myproject.catalog.command.domain.product.Product;
+import com.example.shop.myproject.common.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 
@@ -13,7 +14,7 @@ import static jakarta.persistence.FetchType.LAZY;
 @Getter
 @Entity
 @Table(name = "category")
-public class Category {
+public class Category extends BaseEntity {
     @Id
     @GeneratedValue
     @Column(name = "category_id")
