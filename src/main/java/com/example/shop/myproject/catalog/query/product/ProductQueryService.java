@@ -35,8 +35,8 @@ public class ProductQueryService {
     /**
      * 최하단의 자식 카테고리를 조회하여, 해당 카테고리의 모든 상품 조회
      *
-     * @param categoryId
-     * @param pageable
+     * @param categoryId 카테고리 아이디
+     * @param pageable  페이지
      * @return
      */
     @Transactional(readOnly = true)
@@ -59,8 +59,8 @@ public class ProductQueryService {
     /**
      * 최하단의 카테고리 아이디 조회
      *
-     * @param categoryId
-     * @return
+     * @param categoryId 카테고리 아이디
+     * @return 카테고리 아이디 리스트
      */
     public List<Long> getLeafCategoryIds(Long categoryId) {
         List<Long> leafCategoryIds = new ArrayList<>();
