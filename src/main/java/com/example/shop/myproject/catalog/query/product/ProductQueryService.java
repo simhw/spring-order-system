@@ -43,8 +43,8 @@ public class ProductQueryService {
     public CategoryProduct getProductInCategory(Long categoryId, Pageable pageable) {
         List<Long> leafCategoryIds = getLeafCategoryIds(categoryId);
         List<Category> categories = categoryRepository.findByIdIn(leafCategoryIds);
-        Page<Product> products = productRepository.findByCategoryIn(categories, pageable);
 
+        Page<Product> products = productRepository.findByCategoryIn(categories, pageable);
         List<ProductSummary> summaries = products.stream()
                 .map(ProductSummary::new)
                 .toList();
@@ -58,7 +58,6 @@ public class ProductQueryService {
 
     /**
      * 최하단의 카테고리 아이디 조회
-     *
      * @param categoryId 카테고리 아이디
      * @return 카테고리 아이디 리스트
      */

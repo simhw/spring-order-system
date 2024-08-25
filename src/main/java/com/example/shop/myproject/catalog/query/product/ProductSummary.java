@@ -17,7 +17,7 @@ public class ProductSummary {
 
     private String description;
 
-    private Image image;
+    private String thumbnail;
 
     private ProductState state;
 
@@ -30,14 +30,14 @@ public class ProductSummary {
         this.price = product.getPrice();
         this.description = product.getDescription();
         this.state = product.getState();
-        setImage(product.getImages());
+        setThumbnail(product.getImages());
     }
 
-    private void setImage(List<Image> images) {
-        if (images.isEmpty()) {
-            image = null;
+    private void setThumbnail(List<Image> images) {
+        if (!images.isEmpty()) {
+            thumbnail = images.get(0).getUrl();
             return;
         }
-        image = images.get(0);
+        thumbnail = null;
     }
 }
