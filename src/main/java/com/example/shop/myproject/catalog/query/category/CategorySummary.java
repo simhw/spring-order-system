@@ -19,4 +19,10 @@ public class CategorySummary {
                 .map(CategorySummary::new)
                 .collect(Collectors.toList());
     }
+
+    public CategorySummary(Category category, List<CategorySummary> children) {
+        this.id = category.getId();
+        this.name = category.getName();
+        this.children = children;
+    }
 }

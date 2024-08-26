@@ -4,7 +4,7 @@ import com.example.shop.myproject.catalog.command.domain.category.Category;
 import com.example.shop.myproject.catalog.command.domain.category.CategoryRepository;
 import com.example.shop.myproject.catalog.command.domain.product.Product;
 import com.example.shop.myproject.catalog.command.domain.product.ProductRepository;
-import com.example.shop.myproject.catalog.query.category.CategorySummary;
+import com.example.shop.myproject.catalog.query.category.CategoryData;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -16,7 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -27,16 +27,18 @@ public class ProductQueryService {
     private final ProductRepository productRepository;
 
     // category
-    public List<CategorySummary> getAllCategory() {
+    public List<CategoryData> getCategories() {
         return categoryRepository.findByDepth(1).stream()
-                .map(CategorySummary::new).collect(Collectors.toList());
+                .map(CategoryData::new)
+                .toList();
     }
 
+    // product
     /**
      * 최하단의 자식 카테고리를 조회하여, 해당 카테고리의 모든 상품 조회
      *
      * @param categoryId 카테고리 아이디
-     * @param pageable  페이지
+     * @param pageable   페이지
      * @return
      */
     @Transactional(readOnly = true)
@@ -56,8 +58,14 @@ public class ProductQueryService {
         );
     }
 
+    public ProductData getProduct(Long productId) {
+        Optional<Product> product = productRepository.findById(productId);
+        return null;
+    }
+
     /**
      * 최하단의 카테고리 아이디 조회
+     *
      * @param categoryId 카테고리 아이디
      * @return 카테고리 아이디 리스트
      */
@@ -77,4 +85,5 @@ public class ProductQueryService {
         }
         return leafCategoryIds;
     }
+
 }
