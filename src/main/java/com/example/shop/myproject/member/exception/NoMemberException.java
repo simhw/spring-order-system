@@ -1,4 +1,4 @@
-package com.example.shop.myproject.member.command.application.exception;
+package com.example.shop.myproject.member.exception;
 
 public class NoMemberException extends RuntimeException {
     private Long memberId;

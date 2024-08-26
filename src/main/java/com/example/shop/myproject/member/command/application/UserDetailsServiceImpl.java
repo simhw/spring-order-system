@@ -1,7 +1,7 @@
 package com.example.shop.myproject.member.command.application;
 
 
-import com.example.shop.myproject.member.command.application.exception.NoMemberException;
+import com.example.shop.myproject.member.exception.NoMemberException;
 import com.example.shop.myproject.member.domain.Member;
 import com.example.shop.myproject.member.domain.MemberRepository;
 import lombok.RequiredArgsConstructor;

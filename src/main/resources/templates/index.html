@@ -1,7 +1,13 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: header}"/>
+<head th:replace="fragments/head :: head"></head>
 <body>
-<header th:replace="~{fragments/body-header :: body-header}"/>
+<!-- Header -->
+<header class="bg-primary text-white text-center py-4">
+    <h1>Our Products</h1>
+    <p>Check out our latest products!</p>
+</header>
+
+<footer th:replace="fragments/footer :: footer"></footer>
 </body>
 </html>
