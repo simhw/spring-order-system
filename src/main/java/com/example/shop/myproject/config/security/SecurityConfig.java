@@ -29,7 +29,12 @@ public class SecurityConfig {
 
         http.
                 authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/images/**").permitAll()
+                        // web
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/categories/**").permitAll()
+
+                        // api
                         .requestMatchers("/api/categories/**").permitAll()
                         .anyRequest().authenticated()
                 )
