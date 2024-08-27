@@ -1,7 +1,8 @@
 package com.example.shop.myproject.exception;
 
-import com.example.shop.myproject.member.command.application.exception.InvalidPasswordException;
-import com.example.shop.myproject.member.command.application.exception.NoMemberException;
+
+import com.example.shop.myproject.member.exception.InvalidPasswordException;
+import com.example.shop.myproject.member.exception.NoMemberException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
