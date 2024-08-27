@@ -28,22 +28,33 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .httpBasic(Customizer.withDefaults());
 
-        http.authorizeHttpRequests(authz -> authz.requestMatchers("/images/**").permitAll()
-                // web
-                .requestMatchers("/").permitAll().requestMatchers("/categories/**").permitAll()
-                .requestMatchers("/members/new", "/members/new/success", "/members/signup").permitAll()
+        http
+                .authorizeHttpRequests(authz -> authz
+                        .requestMatchers("/images/**").permitAll()
+                        // web
+                        .requestMatchers("/").permitAll()
+                        .requestMatchers("/categories/**").permitAll()
+                        .requestMatchers("/members/new", "/members/new/success", "/members/signup").permitAll()
 
-                // api
-                .requestMatchers("/api/categories/**").permitAll()
-                .anyRequest().authenticated());
+                        // api
+                        .requestMatchers("/api/categories/**").permitAll()
+                        .anyRequest().authenticated());
 
         http
-                .formLogin(form -> form.loginPage("/login")
+                .formLogin(form -> form
+                        .loginPage("/login")
+                        .loginProcessingUrl("/login")
                         .usernameParameter("email")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/", true)
-                        .failureForwardUrl("/login?error")
-                        .permitAll());
+                        .defaultSuccessUrl("/")
+                        .failureUrl("/login?error")
+                        .permitAll()
+                )
+                .logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .permitAll()
+                );
 
         return http.build();
     }

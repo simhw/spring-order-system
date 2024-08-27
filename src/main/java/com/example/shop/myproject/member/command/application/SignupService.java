@@ -23,7 +23,6 @@ public class SignupService {
     @Transactional
     public void signup(SignupForm form) {
         validate(form);
-
         Member member = new Member(
                 form.getEmail(),
                 passwordEncoder.encode(form.getPassword()),

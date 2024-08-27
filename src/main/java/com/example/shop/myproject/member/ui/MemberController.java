@@ -1,6 +1,6 @@
 package com.example.shop.myproject.member.ui;
 
-import com.example.shop.myproject.member.command.application.dto.UserDetailsImpl;
+import com.example.shop.myproject.auth.UserDetailsImpl;
 import com.example.shop.myproject.member.domain.MemberRepository;
 import com.example.shop.myproject.member.query.MemberDetailService;
 import lombok.RequiredArgsConstructor;
