@@ -1,34 +1,41 @@
 <!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: header}"/>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head th:replace="~{fragments/head :: header}"><title>로그인</title></head>
 <body>
-<header th:replace="~{fragments/body-header :: body-header}"/>
-<header th:replace="~{fragments/body-menu :: body-menu}"/>
-<div class="container w-25">
+<header th:replace="~{fragments/body-header :: body-header}"></header>
+
+<main class="container my-5">
     <div class="py-5 text-center">
         <h5>로그인</h5>
     </div>
-    <hr class="my-4">
+
+    <hr class="my-3">
 
     <form class="form-group" th:object="${form}" method="post">
         <div class="mb-3">
             <label th:for="email">이메일</label>
-            <input type="text" id="email" th:field="*{email}" placeholder="아이디(이메일)" class="form-control"
-                   th:errorclass="is-invalid">
-            <div class="invalid-feedback" th:errors="*{email}"></div>
+            <input type="text" id="email" th:field="*{email}" placeholder="아이디(이메일)" class="form-control" required>
+            <div class="valid-feedback"></div>
+            <div class="invalid-feedback">이메일을 입력해주세요.</div>
+
         </div>
         <div class="mb-3">
             <label th:for="password">비밀번호</label>
-            <input type="password" id="password" th:field="*{password}" placeholder="비밀번호" class="form-control"
-                   th:errorclass="is-invalid">
-            <div class="invalid-feedback" th:errors="*{password}"></div>
+            <input type="password" id="password" th:field="*{password}" placeholder="비밀번호" class="form-control" required>
+            <div class="valid-feedback"></div>
+            <div class="invalid-feedback">비밀번호를 입력해주세요.</div>
         </div>
+
+        <div th:if="${param.error}">
+            <p>이메일 또는 비밀번호를 확인해주세요.</p>
+        </div>
+
         <div class="d-grid gap-2">
             <button class="btn btn-primary btn-lg btn-block" type="submit">로그인</button>
         </div>
     </form>
-    <hr class="my-4">
 
+    <hr class="my-3">
     <div class="row text-center">
         <div class="col">
             <a href="/members/new">회원가입</a>
@@ -41,6 +48,6 @@
         </div>
     </div>
     <br/>
-</div>
+</main>
 </body>
 </html>

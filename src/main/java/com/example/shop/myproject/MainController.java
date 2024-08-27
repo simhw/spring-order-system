@@ -1,7 +1,6 @@
 package com.example.shop.myproject;
 
-import com.example.shop.myproject.member.command.application.dto.LoginRequest;
-import com.example.shop.myproject.member.command.application.dto.UserDetailsImpl;
+import com.example.shop.myproject.auth.UserDetailsImpl;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,11 +17,5 @@ public class MainController {
         } else {
             return "index";
         }
-    }
-
-    @GetMapping("/login")
-    public String login(Model model) {
-        model.addAttribute("form", new LoginRequest());
-        return "login";
     }
 }

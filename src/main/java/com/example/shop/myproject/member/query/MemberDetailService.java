@@ -1,7 +1,7 @@
 package com.example.shop.myproject.member.query;
 
 import com.example.shop.myproject.follow.domain.FollowRepository;
-import com.example.shop.myproject.member.command.application.exception.NoMemberException;
+import com.example.shop.myproject.member.exception.NoMemberException;
 import com.example.shop.myproject.member.domain.Member;
 import com.example.shop.myproject.member.domain.MemberRepository;
 
