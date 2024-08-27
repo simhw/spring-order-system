@@ -1,6 +1,6 @@
 package com.example.shop.myproject.order.ui;
 
-import com.example.shop.myproject.member.command.application.dto.UserDetailsImpl;
+import com.example.shop.myproject.auth.UserDetailsImpl;
 import com.example.shop.myproject.order.application.PlaceOrderServiceV1;
 import com.example.shop.myproject.order.application.dto.OrderRequest;
 import lombok.RequiredArgsConstructor;

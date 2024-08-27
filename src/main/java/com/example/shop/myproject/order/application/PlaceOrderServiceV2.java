@@ -2,7 +2,7 @@ package com.example.shop.myproject.order.application;
 
 import com.example.shop.myproject.catalog.command.domain.product.Product;
 import com.example.shop.myproject.catalog.command.domain.product.ProductRepository;
-import com.example.shop.myproject.member.command.application.exception.NoMemberException;
+import com.example.shop.myproject.member.exception.NoMemberException;
 import com.example.shop.myproject.member.domain.Member;
 import com.example.shop.myproject.member.domain.MemberRepository;
 import com.example.shop.myproject.order.application.dto.OrderProduct;
@@ -42,9 +42,6 @@ public class PlaceOrderServiceV2 {
         for (OrderProduct op : request.getOrderProducts()) {
             Product product = productRepository.findByIdForUpdate(op.getProductId())
                     .orElseThrow(() -> new NoOrderProductException(op.getProductId()));
-
-            log.info("product.id: {}", product.getId());
-            log.info("product.version: {}", product.getVersion());
 
             // 재고 감소 로직 실행
             product.decreaseStock(op.getQuantity());

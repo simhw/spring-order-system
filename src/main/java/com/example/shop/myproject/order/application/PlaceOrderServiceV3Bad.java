@@ -3,7 +3,7 @@ package com.example.shop.myproject.order.application;
 import com.example.shop.myproject.catalog.command.domain.product.Product;
 import com.example.shop.myproject.catalog.command.domain.product.ProductRepository;
 import com.example.shop.myproject.common.LockException;
-import com.example.shop.myproject.member.command.application.exception.NoMemberException;
+import com.example.shop.myproject.member.exception.NoMemberException;
 import com.example.shop.myproject.member.domain.Member;
 import com.example.shop.myproject.member.domain.MemberRepository;
 import com.example.shop.myproject.order.application.dto.OrderProduct;
