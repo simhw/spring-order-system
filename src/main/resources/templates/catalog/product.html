@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head th:replace="~{fragments/head :: header}">
+    <title>상품 상세 페이지</title>
+</head>
+
+<body>
+<header th:replace="~{fragments/header-menu-guest :: menu}"></header>
+<main class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <div id="carouse-controls" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner" th:each="image, state : ${product.images}">
+                    <div class="carousel-item" th:classappend="${state.index == 0 ? 'active' : ''}">
+                        <img class="img-fluid" th:src="${image.url}" alt="slide" style="width: 100%; height: 700px;">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouse-controls"
+                        data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouse-controls"
+                        data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+        <div class="col-md-5 ps-3">
+            <hr class="mt-0" style="border-top:2px solid black">
+            <div class="container">
+                <h5 class="fw-bold" th:text="${product.name}">
+                </h5>
+                <span th:text="${#numbers.formatInteger(product.price, 0, 'COMMA')}"></span>
+                <span>원</span>
+                <p th:text="${product.description}"></p>
+            </div>
+
+            <div class="container">
+                <div class="mb-3">
+                    <label for="quantity" class="form-label">수량</label>
+                    <select class="form-select" id="quantity" name="quantity">
+                        <option value="1">1</option>
+                        <option value="2">2</option>
+                        <option value="3">3</option>
+                        <option value="4">4</option>
+                        <option value="5">5</option>
+                    </select>
+                </div>
+                <div class="d-grid gap-2 mx-auto">
+                    <button class="btn btn-light" type="button">장바구니</button>
+                    <button class="btn btn-dark" th:classappend="${product.state != 'SALE' ? 'disable' : ''}"
+                            type="button">주문하기
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</main>
+<footer></footer>
+
+
+<script>
+    document.getElementById('orderButton').addEventListener('click', function () {
+        document.getElementById('productForm').action = '/order';
+        document.getElementById('productForm').submit();
+    });
+
+    document.getElementById('cartButton').addEventListener('click', function () {
+        document.getElementById('productForm').action = '/cart';
+        document.getElementById('productForm').submit();
+    });
+</script>
+</body>
+</html>

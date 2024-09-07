@@ -1,18 +1,18 @@
 package com.example.shop.myproject.catalog.command.domain.product;
 
-import com.example.shop.myproject.catalog.command.domain.category.Category;
 import com.example.shop.myproject.common.domain.BaseEntity;
 import com.example.shop.myproject.exception.NotEnoughStockException;
 import jakarta.persistence.*;
 import lombok.Getter;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Entity
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name = "type")
 public class Product extends BaseEntity {
     @Id
     @GeneratedValue
@@ -34,9 +34,8 @@ public class Product extends BaseEntity {
     @OrderColumn(name = "no")
     private List<Image> images = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_id")
-    private Category category;
+    @OneToMany(mappedBy = "product")
+    private Set<ProductCategory> productCategories = new HashSet<>();
 
     protected Product() {
     }
@@ -46,16 +45,38 @@ public class Product extends BaseEntity {
         this.name = name;
         this.price = price;
         this.stock = stock;
-        this.state = ProductState.SELLING;
+        this.state = ProductState.SALE;
     }
 
-    public Product(String name, int price, int stock, String description, Category category) {
-        this.name = name;
-        this.price = price;
+    public Product(String name, int price, int stock, String description, List<Image> images) {
+        setName(name);
+        setPrice(price);
         this.stock = stock;
         this.description = description;
-        this.category = category;
-        this.state = ProductState.SELLING;
+        setImages(images);
+        this.state = ProductState.SALE;
+    }
+
+    private void setName(String name) {
+        if (!StringUtils.hasText(name)) {
+            throw new RuntimeException();
+        }
+        this.name = name;
+
+    }
+
+    public void setPrice(int price) {
+        if (price >= 0) {
+            throw new RuntimeException();
+        }
+        this.price = price;
+    }
+
+    private void setImages(List<Image> images) {
+        this.images = images;
+        for (Image image : images) {
+            image.setProduct(this);
+        }
     }
 
     public void increaseStock(int quantity) {
@@ -71,7 +92,7 @@ public class Product extends BaseEntity {
         int restStock = stock - quantity;
 
         if (restStock < 0) {
-            throw new NotEnoughStockException("Stock: " + stock);
+            throw new NotEnoughStockException(String.valueOf(id));
         }
     }
 }

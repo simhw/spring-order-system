@@ -2,7 +2,7 @@ package com.example.shop.myproject.member.ui;
 
 import com.example.shop.myproject.member.command.application.EditMemberProfileService;
 import com.example.shop.myproject.member.command.application.dto.EditProfileRequest;
-import com.example.shop.myproject.member.command.application.dto.UserDetailsImpl;
+import com.example.shop.myproject.auth.UserDetailsImpl;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -27,7 +27,6 @@ public class EditProfileController {
         if (bindingResult.hasErrors()) {
             return "members/editProfileForm";
         }
-        // form.setId(user.getId());
         editMemberProfileService.editProfile(form);
         return "redirect:/";
     }
