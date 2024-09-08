@@ -4,6 +4,8 @@ import com.example.shop.myproject.catalog.command.application.NoProductException
 import com.example.shop.myproject.catalog.command.domain.product.Product;
 import com.example.shop.myproject.catalog.command.domain.product.ProductRepository;
 import com.example.shop.myproject.catalog.query.product.dto.ProductDto;
+import com.example.shop.myproject.like.LikeDto;
+import com.example.shop.myproject.like.application.LikeService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
@@ -19,6 +21,7 @@ import java.util.List;
 public class ProductQueryServiceV2 {
 
     private final ProductRepository productRepository;
+    private final LikeService likeService;
 
     /**
      * 최하단의 자식 카테고리를 조회하여, 해당 카테고리의 모든 상품 조회
@@ -41,9 +44,16 @@ public class ProductQueryServiceV2 {
         );
     }
 
-    public ProductDto getProduct(Long productId) {
+    public ProductDto getProduct(Long memberId, Long productId) {
         Product product = productRepository.findById(productId)
                 .orElseThrow(NoProductException::new);
-        return new ProductDto(product);
+        ProductDto productDto = new ProductDto(product);
+
+        if (memberId != null) {
+            boolean liked = likeService.getLike(memberId, productId) != null;
+            productDto.setLiked(liked);
+        }
+
+        return productDto;
     }
 }

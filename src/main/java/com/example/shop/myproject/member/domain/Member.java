@@ -1,8 +1,13 @@
 package com.example.shop.myproject.member.domain;
 
 import com.example.shop.myproject.common.domain.BaseEntity;
+import com.example.shop.myproject.like.domain.Like;
 import jakarta.persistence.*;
+import jodd.util.StringUtil;
 import lombok.Getter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -21,17 +26,15 @@ public class Member extends BaseEntity {
     @Embedded
     private Profile profile;
 
+    @OneToMany(mappedBy = "member")
+    private List<Like> likes = new ArrayList<>();
+
     protected Member() {
     }
 
-    public Member(String email) {
-        this.email = email;
-    }
-
-    public Member(Long id, String email, String password) {
+    public Member(Long id, String email) {
         this.id = id;
-        this.email = email;
-        this.password = password;
+        setEmail(email);
     }
 
     public Member(String email, String password, Profile profile) {
@@ -40,11 +43,13 @@ public class Member extends BaseEntity {
         this.profile = profile;
     }
 
-    public boolean matchPassword(String password) {
-        return this.password.equals(password);
-    }
-
     public void updateProfile(Profile profile) {
         this.profile = profile;
+    }
+
+    private void setEmail(String email) {
+        if (StringUtil.isNotBlank(email)) {
+            this.email = email;
+        }
     }
 }

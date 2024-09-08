@@ -1,6 +1,7 @@
 package com.example.shop.myproject.catalog.ui;
 
 
+import com.example.shop.myproject.auth.UserDetailsImpl;
 import com.example.shop.myproject.catalog.query.product.application.ProductListView;
 import com.example.shop.myproject.catalog.query.product.application.ProductQueryServiceV2;
 import com.example.shop.myproject.catalog.query.product.dto.ProductDto;
@@ -9,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
@@ -32,9 +34,10 @@ public class ProductRestControllerV2 {
     }
 
     @GetMapping("/products/{productId}")
-    public ApiResponse<ProductDto> detail(@PathVariable Long productId) {
+    public ApiResponse<ProductDto> detail(@AuthenticationPrincipal UserDetailsImpl user, @PathVariable Long productId) {
         try {
-            ProductDto data = productQueryService.getProduct(productId);
+            Long userId = user != null ? user.getId() : null;
+            ProductDto data = productQueryService.getProduct(userId, productId);
             return new ApiResponse<>(HttpStatus.OK, data);
 
         } catch (Exception e) {

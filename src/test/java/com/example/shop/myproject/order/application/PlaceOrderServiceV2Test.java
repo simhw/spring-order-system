@@ -39,7 +39,7 @@ class PlaceOrderServiceV2Test {
         Product product = new Product(productId, "product", 10000, stock);
         productRepository.save(product);
 
-        Member member = new Member(ordererId, "member", "");
+        Member member = new Member(ordererId, "user1");
         memberRepository.save(member);
     }
 

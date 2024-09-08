@@ -45,7 +45,7 @@ class PlaceOrderServiceV3Test {
         Product product2 = new Product(productId2, "product", 15000, stock2);
         productRepository.saveAll(List.of(product1, product2));
 
-        Member member = new Member(ordererId, "member", "");
+        Member member = new Member(ordererId, "user1");
         memberRepository.save(member);
     }
 

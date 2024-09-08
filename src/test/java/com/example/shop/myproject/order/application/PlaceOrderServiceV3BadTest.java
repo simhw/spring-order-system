@@ -41,11 +41,11 @@ class PlaceOrderServiceV3BadTest {
 
     @BeforeEach
     void init() {
-        Product product1 = new Product(productId1, "product", 10000, stock1);
-        Product product2 = new Product(productId2, "product", 15000, stock2);
+        Product product1 = new Product(productId1, "product1", 10000, stock1);
+        Product product2 = new Product(productId2, "product2", 15000, stock2);
         productRepository.saveAll(List.of(product1, product2));
 
-        Member member = new Member(ordererId, "member", "");
+        Member member = new Member(ordererId, "user1");
         memberRepository.save(member);
     }
 
