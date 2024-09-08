@@ -15,6 +15,7 @@ public class ProductDto {
     private String description;
     private ProductState state;
     private List<ImageDto> images = new ArrayList<>();
+    private boolean liked;
 
     protected ProductDto() {
     }

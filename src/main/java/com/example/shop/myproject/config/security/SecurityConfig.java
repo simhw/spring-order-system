@@ -30,14 +30,12 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests(authz -> authz
-                        .requestMatchers("/images/**").permitAll()
-                        // web
+                        .requestMatchers("/images/**", "/js/**").permitAll()
                         .requestMatchers("/").permitAll()
                         .requestMatchers("/categories/**").permitAll()
                         .requestMatchers("/products/**").permitAll()
                         .requestMatchers("/members/new", "/members/new/success", "/members/signup").permitAll()
 
-                        // api
                         .requestMatchers("/api/categories/**").permitAll()
                         .requestMatchers("/api/products/**").permitAll()
                         .requestMatchers("/api/v2/categories/**").permitAll()

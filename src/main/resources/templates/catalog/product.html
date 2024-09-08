@@ -30,8 +30,7 @@
         <div class="col-md-5 ps-3">
             <hr class="mt-0" style="border-top:2px solid black">
             <div class="container">
-                <h5 class="fw-bold" th:text="${product.name}">
-                </h5>
+                <h5 class="fw-bold" th:text="${product.name}"></h5>
                 <span th:text="${#numbers.formatInteger(product.price, 0, 'COMMA')}"></span>
                 <span>원</span>
                 <p th:text="${product.description}"></p>
@@ -48,30 +47,32 @@
                         <option value="5">5</option>
                     </select>
                 </div>
-                <div class="d-grid gap-2 mx-auto">
-                    <button class="btn btn-light" type="button">장바구니</button>
-                    <button class="btn btn-dark" th:classappend="${product.state != 'SALE' ? 'disable' : ''}"
-                            type="button">주문하기
+                <div class="d-grid gap-3 d-md-block mx-auto">
+                    <button id="like" class="btn"
+                            th:classappend="${product.liked} ? 'btn-danger' : 'btn-outline-danger'">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                             class="bi bi-heart" viewBox="0 0 16 16">
+                            <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143q.09.083.176.171a3 3 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15"></path>
+                            <span> 좋아요</span>
+                        </svg>
+                    </button>
+                    <button class="btn btn-light" id="cart" type="button">
+                        <span>장바구니</span>
+                    </button>
+                    <button class="btn btn-dark" id="order" th:classappend="${product.state != 'SALE' ? 'disable' : ''}"
+                            type="button">
+                        <span>주문하기</span>
                     </button>
                 </div>
             </div>
-
         </div>
     </div>
 </main>
 <footer></footer>
-
-
 <script>
-    document.getElementById('orderButton').addEventListener('click', function () {
-        document.getElementById('productForm').action = '/order';
-        document.getElementById('productForm').submit();
-    });
-
-    document.getElementById('cartButton').addEventListener('click', function () {
-        document.getElementById('productForm').action = '/cart';
-        document.getElementById('productForm').submit();
-    });
+    const productId = [[${productId}]];
+    let liked = [[${product.liked}]];
 </script>
+<script src="/js/like.js"></script>
 </body>
 </html>

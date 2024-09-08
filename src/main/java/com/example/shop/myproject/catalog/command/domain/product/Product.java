@@ -2,6 +2,7 @@ package com.example.shop.myproject.catalog.command.domain.product;
 
 import com.example.shop.myproject.common.domain.BaseEntity;
 import com.example.shop.myproject.exception.NotEnoughStockException;
+import com.example.shop.myproject.like.domain.Like;
 import jakarta.persistence.*;
 import lombok.Getter;
 import org.springframework.util.StringUtils;
@@ -37,12 +38,20 @@ public class Product extends BaseEntity {
     @OneToMany(mappedBy = "product")
     private Set<ProductCategory> productCategories = new HashSet<>();
 
+    @OneToMany(mappedBy = "product")
+    private List<Like> likes = new ArrayList<>();
+
     protected Product() {
+    }
+
+    public Product(Long id, String name) {
+        this.id = id;
+        setName(name);
     }
 
     public Product(Long id, String name, int price, int stock) {
         this.id = id;
-        this.name = name;
+        setName(name);
         this.price = price;
         this.stock = stock;
         this.state = ProductState.SALE;
