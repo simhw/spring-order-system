@@ -1,6 +1,8 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/header :: header}"/>
+<head th:replace="~{fragments/head :: header}">
+    <title>프로필 수정</title>
+</head>
 <style>
     #image-upload-btn {
         display: none;
@@ -11,8 +13,10 @@
         border-radius: 80%;
     }
 </style>
+
 <body>
-<header th:replace="~{fragments/body-header :: body-header}"/>
+<header th:replace="~{fragments/header-menu-user :: body-header}"></header>
+
 <div class="container w-50 mx-auto">
     <div class="py-5 text-center"><h5>회원정보수정</h5></div>
     <hr class="my-4">

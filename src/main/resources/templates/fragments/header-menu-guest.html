@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<header th:fragment="menu">
+    <nav class="py-2 border-bottom">
+        <div class="container d-flex flex-wrap">
+            <ul class="nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link link-dark px-2 active" href="/">
+                        🏠
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link link-dark px-2 active" href="/categories/1">
+                        의류
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link link-dark px-2 active" href="/categories/2">
+                        가방
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link link-dark px-2 active" href="/categories/3">
+                        신발
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link link-dark px-2 active" href="/categories/4">
+                        리빙
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link link-dark px-2 active" href="/categories/5">
+                        뷰티
+                    </a>
+                </li>
+            </ul>
+            <ul class="nav justify-content-end">
+                <li class="nav-item">
+                    <a class="nav-link link-dark px-2" aria-current="page" href="/members/memberId">
+                        마이페이지
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link link-dark px-2" aria-current="page" href="members/like">
+                        좋아요
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link link-dark px-2" aria-current="page" href="/members/login">
+                        로그인
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link link-dark px-2" aria-current="page" href="/members/new">
+                        회원가입
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+</header>
+

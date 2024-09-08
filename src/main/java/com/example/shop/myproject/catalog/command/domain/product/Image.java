@@ -4,6 +4,7 @@ import com.example.shop.myproject.common.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.Setter;
 
 import static jakarta.persistence.FetchType.LAZY;
 
@@ -14,6 +15,7 @@ import static jakarta.persistence.FetchType.LAZY;
 public class Image extends BaseEntity {
     @Id
     @GeneratedValue
+    @Column(name = "image_id")
     private Long id;
 
     private String url;
@@ -22,9 +24,11 @@ public class Image extends BaseEntity {
 
     private String path;
 
+    @Setter
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "product_id")
     private Product product;
 
-    protected Image() {}
+    protected Image() {
+    }
 }

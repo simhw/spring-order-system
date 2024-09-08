@@ -1,8 +1,8 @@
 <!DOCTYPE HTML>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{fragments/head :: header}"/>
+<head th:replace="~{fragments/head :: header}"></head>
 <body>
-<header th:replace="~{fragments/body-header :: body-header}"/>
+<header th:replace="~{fragments/header-menu-user :: body-header}"></header>
 
 <div class="container-xl">
     <div class="card w-70 mx-auto">
@@ -33,7 +33,7 @@
                     </dl>
                     <p class="card-text" th:text="${data.introduce}"></p>
                     <button type="button" class="btn btn-outline-secondary"
-                            th:onclick="|location.href='@{/members/{memberId}/edit(memberId = ${data.memberId})}'|">설정
+                            th:onclick="|location.href='@{/members/{memberId}/edit(memberId=${data.memberId})}'|">설정
                     </button>
                 </div>
             </div>
