@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head th:replace="~{fragments/head :: header}">
+    <title>쿠폰 목록 페이지</title>
+</head>
+
+<body>
+<!--head-->
+<header th:replace="~{fragments/header-menu-guest :: menu}"></header>
+
+<!--main-->
+<main class="container my-5">
+    <div class="row">
+        <h5 class="py-2 text-center">쿠폰</h5>
+        <hr class="my-3">
+        <div class="col-sm-4" th:each="coupon : ${coupons}">
+            <div class="card mb-3 border-secondary">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${coupon.title}">title</h5>
+                    <p class="card-text" th:text="${coupon.description}">description</p>
+                    <p class="card-text" th:if="${coupon.discountType.equals('FIXED_AMOUNT')}"
+                       th:text="|최대 ${coupon.discount}원 할인|"></p>
+                    <p class="card-text" th:if="${coupon.discountType.equals('FIXED_RATE')}"
+                       th:text="|최대 ${coupon.discount}% 할인|"></p>
+                    <p class="card-text"
+                       th:text="|${#temporals.format(coupon.endAt, 'yyyy-MM-dd HH:mm:ss')} 까지|"></p>
+                    <a href="#" class="btn btn-primary">다운로드</a>
+                </div>
+            </div>
+        </div>
+</main>
+
+<!--footer-->
+</body>
+</html>

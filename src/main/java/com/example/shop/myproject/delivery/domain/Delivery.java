@@ -1,7 +1,7 @@
 package com.example.shop.myproject.delivery.domain;
 
 import com.example.shop.myproject.common.domain.Address;
-import com.example.shop.myproject.order.domain.Order;
+import com.example.shop.myproject.order.commnad.domain.Order;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

@@ -8,7 +8,7 @@ import lombok.Getter;
 
 @Getter
 @Entity
-@Table(name = "product_like")
+@Table(name = "likes")
 public class Like extends BaseEntity {
     @Id
     @GeneratedValue
