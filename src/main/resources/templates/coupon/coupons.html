@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="kr">
+<head th:replace="~{fragments/head :: header}">
+    <title>쿠폰 목록 페이지</title>
+</head>
+
+<body>
+<!--    head    -->
+<header th:replace="~{fragments/header-menu-guest :: menu}"></header>
+
+<!--    main    -->
+<main class="container my-5">
+    <h5 class="py-5 text-center">쿠폰</h5>
+    <div class="py-3">
+        <ul class="nav nav-tabs">
+            <li class="nav-item">
+                <a class="nav-link active" aria-current="page" href="/coupons">쿠폰 받기</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/coupons/my">보유 쿠폰</a>
+            </li>
+        </ul>
+    </div>
+    <div class="row">
+        <div class="col-sm-4" th:each="coupon : ${coupons}">
+            <div class="card mb-3 border-secondary">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${coupon.title}">title</h5>
+                    <p class="card-text" th:text="${coupon.description}">description</p>
+                    <p class="card-text" th:if="${coupon.discountType.equals('FIXED_AMOUNT')}"
+                       th:text="|최대 ${coupon.discount}원 할인|"></p>
+                    <p class="card-text" th:if="${coupon.discountType.equals('FIXED_RATE')}"
+                       th:text="|최대 ${coupon.discount}% 할인|"></p>
+                    <p class="card-text"
+                       th:text="|${#temporals.format(coupon.endAt, 'yyyy-MM-dd HH:mm:ss')} 까지|"></p>
+                    <a class="download-btn btn btn-primary" href="#" th:attr="data-coupon-id=${coupon.id}">다운로드</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<script>
+</script>
+<script src="/js/coupon.js"></script>
+
+</body>
+</html>

@@ -8,6 +8,7 @@
 <header th:replace="~{fragments/header-menu-guest :: menu}"></header>
 <main class="container my-5">
     <div class="row justify-content-center">
+        <!--    side menu   -->
         <div class="col-md-3">
             <p class="fw-bold ps-3" th:text="${category.name}"></p>
             <hr class="mt-0" style="border-top:2px solid black">
@@ -20,6 +21,7 @@
                 </li>
             </ul>
         </div>
+        <!--    content   -->
         <section class="col-md-9">
             <div id="product-list" class="row"></div>
             <div>
