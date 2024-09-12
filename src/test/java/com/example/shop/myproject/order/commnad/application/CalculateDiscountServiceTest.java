@@ -2,7 +2,7 @@ package com.example.shop.myproject.order.commnad.application;
 
 import com.example.shop.myproject.coupon.application.DiscountPolicyFinder;
 import com.example.shop.myproject.coupon.application.FixedRateDiscountPolicy;
-import com.example.shop.myproject.coupon.application.NotValidCouponException;
+import com.example.shop.myproject.coupon.exception.NotValidCouponException;
 import com.example.shop.myproject.coupon.domain.Coupon;
 import com.example.shop.myproject.coupon.domain.CouponRepository;
 import com.example.shop.myproject.coupon.domain.DiscountType;

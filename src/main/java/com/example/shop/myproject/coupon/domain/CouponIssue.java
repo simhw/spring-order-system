@@ -3,13 +3,17 @@ package com.example.shop.myproject.coupon.domain;
 import com.example.shop.myproject.common.domain.BaseEntity;
 import com.example.shop.myproject.member.domain.Member;
 import jakarta.persistence.*;
+import lombok.Getter;
 
+import java.time.LocalDateTime;
+
+@Getter
 @Entity
-@Table(name = "coupon_history")
-public class CouponHistory extends BaseEntity {
+@Table(name = "coupon_issue")
+public class CouponIssue extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "coupon_history_id")
+    @Column(name = "coupon_issue_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -22,6 +26,13 @@ public class CouponHistory extends BaseEntity {
 
     private boolean isUsed;
 
-    protected CouponHistory() {
+    protected CouponIssue() {
+    }
+
+    public CouponIssue(Coupon coupon, Member member) {
+        coupon.verifyValidDateTime(LocalDateTime.now());
+        this.coupon = coupon;
+        this.member = member;
+        this.isUsed = false;
     }
 }

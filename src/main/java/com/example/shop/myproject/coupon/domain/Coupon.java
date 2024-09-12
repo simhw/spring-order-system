@@ -1,8 +1,8 @@
 package com.example.shop.myproject.coupon.domain;
 
 import com.example.shop.myproject.common.domain.BaseEntity;
-import com.example.shop.myproject.coupon.application.MinAmountException;
-import com.example.shop.myproject.coupon.application.NotValidCouponException;
+import com.example.shop.myproject.coupon.exception.MinAmountException;
+import com.example.shop.myproject.coupon.exception.NotValidCouponException;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -52,7 +52,7 @@ public class Coupon extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "coupon")
-    private List<CouponHistory> histories = new ArrayList<>();
+    private List<CouponIssue> issues = new ArrayList<>();
 
     protected Coupon() {
     }
@@ -63,7 +63,8 @@ public class Coupon extends BaseEntity {
     }
 
     public void verifyValidDateTime(LocalDateTime now) {
-        if (now.isAfter(endAt) || (now.isBefore(endAt))) {
+        // 현재 시작일 이전이거나 마지막일 이후인 경우 발급 불가능
+        if (now.isBefore(startAt) || now.isAfter(endAt)) {
             throw new NotValidCouponException();
         }
     }

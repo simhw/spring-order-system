@@ -1,30 +1,25 @@
 package com.example.shop.myproject.coupon.ui;
 
-import com.example.shop.myproject.coupon.domain.Coupon;
-import com.example.shop.myproject.coupon.domain.CouponRepository;
+import com.example.shop.myproject.auth.UserDetailsImpl;
+import com.example.shop.myproject.common.ApiResponse;
+import com.example.shop.myproject.coupon.application.IssueCouponService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDateTime;
-import java.util.List;
-
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/coupons")
 public class CouponRestController {
 
-    private final CouponRepository couponRepository;
+    private final IssueCouponService issueCouponService;
 
-    @GetMapping("")
-    public String list(Model model) {
-        LocalDateTime now = LocalDateTime.now();
-        // 조회 날짜로 부터 유효한 기간의 쿠폰 조회
-        List<Coupon> coupons = couponRepository.findValidCoupons(now);
-        model.addAttribute("coupons", couponRepository.findAll());
-        return "coupon/coupons";
+    @PostMapping("/download")
+    public ApiResponse<Long> save(@AuthenticationPrincipal UserDetailsImpl user, @RequestParam Long couponId) {
+        Long data = issueCouponService.download(user.getId(), couponId);
+        return new ApiResponse<>(HttpStatus.CREATED, data);
     }
 }

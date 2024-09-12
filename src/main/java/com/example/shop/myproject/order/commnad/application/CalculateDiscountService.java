@@ -2,7 +2,7 @@ package com.example.shop.myproject.order.commnad.application;
 
 import com.example.shop.myproject.coupon.application.DiscountPolicy;
 import com.example.shop.myproject.coupon.application.DiscountPolicyFinder;
-import com.example.shop.myproject.coupon.application.NoCouponException;
+import com.example.shop.myproject.coupon.exception.NoCouponException;
 import com.example.shop.myproject.coupon.domain.Coupon;
 import com.example.shop.myproject.coupon.domain.CouponRepository;
 import lombok.RequiredArgsConstructor;
