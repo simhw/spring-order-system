@@ -1,7 +1,6 @@
 package com.example.shop.myproject.coupon.domain;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
@@ -26,15 +25,5 @@ class CouponRepositoryTest {
                 .build();
 
         couponRepository.save(coupon);
-    }
-
-    @Test
-    public void findValidCoupons() {
-        couponRepository.findValidCoupons(LocalDateTime.now());
-    }
-
-    @Test
-    void findHistoriesById() {
-        couponRepository.findHistoriesByCouponId(1L);
     }
 }

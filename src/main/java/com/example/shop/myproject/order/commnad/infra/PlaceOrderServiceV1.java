@@ -2,12 +2,14 @@ package com.example.shop.myproject.order.commnad.infra;
 
 import com.example.shop.myproject.catalog.command.domain.product.Product;
 import com.example.shop.myproject.catalog.command.domain.product.ProductRepository;
+import com.example.shop.myproject.delivery.domain.Delivery;
+import com.example.shop.myproject.delivery.domain.DeliveryStatus;
 import com.example.shop.myproject.member.exception.NoMemberException;
 import com.example.shop.myproject.member.domain.Member;
 import com.example.shop.myproject.member.domain.MemberRepository;
 import com.example.shop.myproject.order.commnad.application.NoOrderProductException;
 import com.example.shop.myproject.order.commnad.dto.OrderProduct;
-import com.example.shop.myproject.order.commnad.dto.OrderRequest;
+import com.example.shop.myproject.order.commnad.dto.OrderForm;
 import com.example.shop.myproject.order.commnad.domain.Order;
 import com.example.shop.myproject.order.commnad.domain.OrderLine;
 import com.example.shop.myproject.order.commnad.domain.OrderRepository;
@@ -36,18 +38,18 @@ public class PlaceOrderServiceV1 {
 
     /***
      * ReentrantLock 사용한 비관적락 주문 처리
-     * @param request
+     * @param form
      */
     @Transactional
-    public Long placeOrder(OrderRequest request) {
+    public Long placeOrder(OrderForm form) {
         lock.lock();
         try {
-            Member member = memberRepository.findById(request.getOrdererId())
-                    .orElseThrow(() -> new NoMemberException(request.getOrdererId()));
+            Member member = memberRepository.findById(form.getOrdererId())
+                    .orElseThrow(() -> new NoMemberException(form.getOrdererId()));
 
             List<OrderLine> orderLines = new ArrayList<>();
 
-            for (OrderProduct op : request.getOrderProducts()) {
+            for (OrderProduct op : form.getOrderProducts()) {
                 Product product = productRepository.findById(op.getProductId())
                         .orElseThrow(() -> new NoOrderProductException(op.getProductId()));
 
@@ -56,7 +58,8 @@ public class PlaceOrderServiceV1 {
                 orderLines.add(new OrderLine(product, product.getPrice(), op.getQuantity()));
             }
 
-            Order order = new Order(member, orderLines, OrderStatus.ORDER);
+            Delivery delivery = new Delivery(form.getAddress(), DeliveryStatus.READY);
+            Order order = new Order(member, orderLines, delivery, OrderStatus.PAYMENT_WAITING);
             Order saved = orderRepository.save(order);
             entityManager.flush();
             return saved.getId();

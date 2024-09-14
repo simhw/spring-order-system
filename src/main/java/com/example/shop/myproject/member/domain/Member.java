@@ -4,6 +4,8 @@ import com.example.shop.myproject.common.domain.BaseEntity;
 import com.example.shop.myproject.like.domain.Like;
 import jakarta.persistence.*;
 import jodd.util.StringUtil;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
 import java.util.ArrayList;
@@ -11,6 +13,9 @@ import java.util.List;
 
 @Entity
 @Getter
+@AllArgsConstructor
+@Builder
+@Table(name = "member")
 public class Member extends BaseEntity {
     @Id
     @GeneratedValue
@@ -26,15 +31,11 @@ public class Member extends BaseEntity {
     @Embedded
     private Profile profile;
 
+    @Builder.Default
     @OneToMany(mappedBy = "member")
     private List<Like> likes = new ArrayList<>();
 
     protected Member() {
-    }
-
-    public Member(Long id, String email) {
-        this.id = id;
-        setEmail(email);
     }
 
     public Member(String email, String password, Profile profile) {
@@ -43,13 +44,13 @@ public class Member extends BaseEntity {
         this.profile = profile;
     }
 
-    public void updateProfile(Profile profile) {
-        this.profile = profile;
-    }
-
     private void setEmail(String email) {
         if (StringUtil.isNotBlank(email)) {
             this.email = email;
         }
+    }
+
+    public void updateProfile(Profile profile) {
+        this.profile = profile;
     }
 }

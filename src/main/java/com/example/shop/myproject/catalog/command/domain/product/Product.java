@@ -4,6 +4,8 @@ import com.example.shop.myproject.common.domain.BaseEntity;
 import com.example.shop.myproject.exception.NotEnoughStockException;
 import com.example.shop.myproject.like.domain.Like;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import org.springframework.util.StringUtils;
 
@@ -12,8 +14,11 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Builder
 @Getter
 @Entity
+@Table(name = "product")
+@AllArgsConstructor
 public class Product extends BaseEntity {
     @Id
     @GeneratedValue
@@ -31,13 +36,16 @@ public class Product extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private ProductState state;
 
+    @Builder.Default
     @OneToMany(mappedBy = "product")
     @OrderColumn(name = "no")
     private List<Image> images = new ArrayList<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "product")
     private Set<ProductCategory> productCategories = new HashSet<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "product")
     private List<Like> likes = new ArrayList<>();
 
@@ -71,7 +79,6 @@ public class Product extends BaseEntity {
             throw new RuntimeException();
         }
         this.name = name;
-
     }
 
     public void setPrice(int price) {

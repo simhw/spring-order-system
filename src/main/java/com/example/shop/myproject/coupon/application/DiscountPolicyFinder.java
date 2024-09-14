@@ -4,6 +4,7 @@ import com.example.shop.myproject.coupon.domain.DiscountType;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -13,12 +14,14 @@ public class DiscountPolicyFinder {
 
     private final List<DiscountPolicy> policies;
 
-    public DiscountPolicyFinder(final List<DiscountPolicy> policies) {
+    public DiscountPolicyFinder() {
+        List<DiscountPolicy> policies = new ArrayList<>();
+        policies.add(new FixedAmountDiscountPolicy());
+        policies.add(new FixedRateDiscountPolicy());
         this.policies = policies;
     }
 
     public Optional<DiscountPolicy> find(final DiscountType discountType) {
-        log.info("Discount policy found for type {}", discountType);
         return policies.stream()
                 .filter(dp -> dp.isSupport(discountType))
                 .findAny();

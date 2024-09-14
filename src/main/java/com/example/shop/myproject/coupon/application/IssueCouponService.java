@@ -1,8 +1,8 @@
 package com.example.shop.myproject.coupon.application;
 
 import com.example.shop.myproject.coupon.domain.Coupon;
-import com.example.shop.myproject.coupon.domain.CouponIssue;
-import com.example.shop.myproject.coupon.domain.CouponIssueRepository;
+import com.example.shop.myproject.coupon.domain.CouponIssued;
+import com.example.shop.myproject.coupon.domain.CouponIssuedRepository;
 import com.example.shop.myproject.coupon.domain.CouponRepository;
 import com.example.shop.myproject.coupon.exception.NoCouponException;
 import com.example.shop.myproject.member.domain.Member;
@@ -18,7 +18,7 @@ public class IssueCouponService {
 
     private final CouponRepository couponRepository;
     private final MemberRepository memberRepository;
-    private final CouponIssueRepository couponIssueRepository;
+    private final CouponIssuedRepository couponIssuedRepository;
 
     @Transactional
     public Long download(Long memberId, Long couponId) {
@@ -28,8 +28,8 @@ public class IssueCouponService {
         Coupon coupon = couponRepository.findById(couponId)
                 .orElseThrow(NoCouponException::new);
 
-        CouponIssue issue = new CouponIssue(coupon, member);
-        CouponIssue saved = couponIssueRepository.save(issue);
+        CouponIssued issue = new CouponIssued(coupon, member);
+        CouponIssued saved = couponIssuedRepository.save(issue);
         return saved.getId();
     }
 }

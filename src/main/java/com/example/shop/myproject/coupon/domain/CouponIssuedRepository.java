@@ -7,11 +7,9 @@ import org.springframework.data.jpa.repository.Query;
 import java.time.LocalDateTime;
 import java.util.List;
 
-public interface CouponIssueRepository extends JpaRepository<CouponIssue, Long> {
-    List<CouponIssue> findByMember(Member member);
-
-    @Query("select ci from CouponIssue ci join ci.coupon c " +
+public interface CouponIssuedRepository extends JpaRepository<CouponIssued, Long> {
+    @Query("select ci from CouponIssued ci join ci.coupon c " +
             "where ci.member = :member " +
             "and c.startAt <= :now and c.endAt >= :now")
-    List<CouponIssue> findValidCouponIssueByMember(Member member, LocalDateTime now);
+    List<CouponIssued> findValidCouponIssuedByMember(Member member, LocalDateTime now);
 }

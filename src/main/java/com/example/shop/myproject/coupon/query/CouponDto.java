@@ -1,7 +1,7 @@
 package com.example.shop.myproject.coupon.query;
 
 import com.example.shop.myproject.coupon.domain.Coupon;
-import com.example.shop.myproject.coupon.domain.CouponIssue;
+import com.example.shop.myproject.coupon.domain.CouponIssued;
 import com.example.shop.myproject.coupon.domain.DiscountType;
 import lombok.Data;
 
@@ -20,7 +20,7 @@ public class CouponDto {
     protected CouponDto() {
     }
 
-    public CouponDto(CouponIssue issue) {
+    public CouponDto(CouponIssued issue) {
         Coupon coupon = issue.getCoupon();
         this.id = coupon.getId();
         this.title = coupon.getTitle();

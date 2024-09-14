@@ -24,16 +24,18 @@ public class OrderLine {
 
     private int price;
 
-    private int count;
+    private int amount;
 
-    public OrderLine(Product product, int price, int count) {
+    private int quantity;
+
+    public OrderLine(Product product, int price, int quantity) {
         this.product = product;
         this.price = price;
-        this.count = count;
-        this.price = getTotalPrice();
+        this.quantity = quantity;
+        this.amount = calculateAmounts();
     }
 
-    public int getTotalPrice() {
-        return price * count;
+    public int calculateAmounts() {
+        return price * quantity;
     }
 }

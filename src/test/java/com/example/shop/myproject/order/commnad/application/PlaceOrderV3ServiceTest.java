@@ -5,15 +5,17 @@ import com.example.shop.myproject.catalog.command.domain.product.ProductReposito
 import com.example.shop.myproject.member.domain.Member;
 import com.example.shop.myproject.member.domain.MemberRepository;
 import com.example.shop.myproject.order.commnad.dto.OrderProduct;
-import com.example.shop.myproject.order.commnad.dto.OrderRequest;
-import com.example.shop.myproject.order.commnad.infra.PlaceOrderServiceV1;
+import com.example.shop.myproject.order.commnad.dto.OrderForm;
+import com.example.shop.myproject.order.commnad.infra.PlaceOrderServiceV3;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -22,53 +24,58 @@ import java.util.concurrent.atomic.AtomicInteger;
 import static org.assertj.core.api.Assertions.assertThat;
 
 @SpringBootTest
-class CreateOrderServiceV3V1Test {
+class PlaceOrderV3ServiceTest {
 
     @Autowired
-    private PlaceOrderServiceV1 placeOrderServiceV1;
+    private PlaceOrderServiceV3 placeOrderServiceV3V3;
     @Autowired
     private ProductRepository productRepository;
     @Autowired
     private MemberRepository memberRepository;
 
-    private Long productId = 1L;
-    private Long ordererId = 1L;
+    private Long productId1 = 1L;
+    private Long productId2 = 2L;
 
-    private int stock = 10;
+    private int stock1 = 100;
+    private int stock2 = 200;
+    private Long ordererId = 1L;
 
     @BeforeEach
     void init() {
-        Product product = new Product(productId, "product", 10000, stock);
-        productRepository.save(product);
+        Product product1 = new Product(productId1, "product", 10000, stock1);
+        Product product2 = new Product(productId2, "product", 15000, stock2);
+        productRepository.saveAll(List.of(product1, product2));
 
-        Member member = new Member(ordererId, "member");
+        Member member = Member.builder()
+                .id(ordererId).build();
         memberRepository.save(member);
     }
 
     @Test
-    void 동시에_10개_주문() throws InterruptedException {
+    void 동시에_100개_주문() throws InterruptedException {
         // given
-        int threadCount = 20;
+        int threadCount = 100;
         AtomicInteger successCount = new AtomicInteger();
         AtomicInteger failCount = new AtomicInteger();
 
         ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
         CountDownLatch latch = new CountDownLatch(threadCount);
 
-        OrderRequest orderRequest = new OrderRequest(
-                ordererId,
-                List.of(new OrderProduct(productId, 1))
-        );
+        OrderProduct orderProduct1 = new OrderProduct(productId1, 1);
+        OrderProduct orderProduct2 = new OrderProduct(productId2, 1);
+        OrderForm orderForm = new OrderForm(ordererId, List.of(orderProduct1, orderProduct2));
 
         // when
         for (int i = 0; i < threadCount; i++) {
             executorService.submit(() -> {
                 try {
-                    placeOrderServiceV1.placeOrder(orderRequest);
+                    placeOrderServiceV3V3.placeOrder(orderForm);
                     successCount.incrementAndGet();
 
                 } catch (Exception e) {
+                    System.out.println(Arrays.toString(e.getStackTrace()));
                     failCount.incrementAndGet();
+
                 } finally {
                     latch.countDown();
                 }
@@ -78,10 +85,13 @@ class CreateOrderServiceV3V1Test {
         latch.await();
         executorService.shutdown();
 
-        System.out.println("success count: " + successCount.get());
-        System.out.println("fail count: " + failCount.get());
+        Optional<Product> op1 = productRepository.findById(productId1);
+        Optional<Product> op2 = productRepository.findById(productId2);
+
+        System.out.println("상품1 재고: " + op1.get().getStock());
+        System.out.println("상품2 재고: " + op2.get().getStock());
 
         // then
-        assertThat(successCount.get()).isEqualTo(stock);
+        assertThat(successCount.get()).isEqualTo(threadCount);
     }
 }

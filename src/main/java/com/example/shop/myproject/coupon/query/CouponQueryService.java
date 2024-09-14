@@ -1,8 +1,8 @@
 package com.example.shop.myproject.coupon.query;
 
 import com.example.shop.myproject.coupon.domain.Coupon;
-import com.example.shop.myproject.coupon.domain.CouponIssue;
-import com.example.shop.myproject.coupon.domain.CouponIssueRepository;
+import com.example.shop.myproject.coupon.domain.CouponIssued;
+import com.example.shop.myproject.coupon.domain.CouponIssuedRepository;
 import com.example.shop.myproject.coupon.domain.CouponRepository;
 import com.example.shop.myproject.member.domain.Member;
 import com.example.shop.myproject.member.domain.MemberRepository;
@@ -19,7 +19,7 @@ import java.util.List;
 public class CouponQueryService {
 
     private final CouponRepository couponRepository;
-    private final CouponIssueRepository couponIssueRepository;
+    private final CouponIssuedRepository couponIssuedRepository;
     private final MemberRepository memberRepository;
 
     @Transactional(readOnly = true)
@@ -34,9 +34,9 @@ public class CouponQueryService {
                 .orElseThrow(NoMemberException::new);
 
         LocalDateTime now = LocalDateTime.now();
-        List<CouponIssue> couponIssues = couponIssueRepository.findValidCouponIssueByMember(member, now);
+        List<CouponIssued> couponIssueds = couponIssuedRepository.findValidCouponIssuedByMember(member, now);
 
-        return couponIssues.stream()
+        return couponIssueds.stream()
                 .map(CouponDto::new)
                 .toList();
     }

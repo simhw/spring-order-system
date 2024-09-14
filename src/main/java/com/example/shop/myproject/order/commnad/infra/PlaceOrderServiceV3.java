@@ -4,7 +4,7 @@ import com.example.shop.myproject.common.LockException;
 import com.example.shop.myproject.order.commnad.application.CreateOrderService;
 import com.example.shop.myproject.order.commnad.application.PlaceOrderService;
 import com.example.shop.myproject.order.commnad.dto.OrderProduct;
-import com.example.shop.myproject.order.commnad.dto.OrderRequest;
+import com.example.shop.myproject.order.commnad.dto.OrderForm;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
@@ -25,14 +25,14 @@ public class PlaceOrderServiceV3 implements PlaceOrderService {
 
     /***
      * Redisson 분산 락 주문 처리
-     * @param request
+     * @param form
      */
     @Override
-    public Long placeOrder(OrderRequest request) {
+    public Long placeOrder(OrderForm form) {
         Map<Long, RLock> locks = new ConcurrentSkipListMap<>();
 
         try {
-            for (OrderProduct op : request.getOrderProducts()) {
+            for (OrderProduct op : form.getOrderProducts()) {
                 RLock lock = redissonClient.getLock(String.valueOf(op.getProductId()));
                 boolean isLockAcquired = lock.tryLock(5, 3, TimeUnit.SECONDS);
 
@@ -42,7 +42,8 @@ public class PlaceOrderServiceV3 implements PlaceOrderService {
 
                 locks.put(op.getProductId(), lock);
             }
-            return createOrderService.createOrder(request);
+            // 모든 락을 획득한 경우 주문 실행
+            return createOrderService.createOrder(form);
 
         } catch (Exception e) {
             log.error(e.getMessage());

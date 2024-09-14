@@ -52,7 +52,7 @@ public class Coupon extends BaseEntity {
 
     @Builder.Default
     @OneToMany(mappedBy = "coupon")
-    private List<CouponIssue> issues = new ArrayList<>();
+    private List<CouponIssued> issues = new ArrayList<>();
 
     protected Coupon() {
     }

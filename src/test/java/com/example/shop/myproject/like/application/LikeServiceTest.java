@@ -6,6 +6,7 @@ import com.example.shop.myproject.like.domain.Like;
 import com.example.shop.myproject.member.domain.Member;
 import com.example.shop.myproject.member.domain.MemberRepository;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -31,6 +32,20 @@ class LikeServiceTest {
     @InjectMocks
     private LikeService likeService;
 
+    Product product;
+    Member member;
+
+    @BeforeEach
+    void init() {
+        member = Member.builder()
+                .id(1L)
+                .build();
+
+        product = Product.builder()
+                .id(1L)
+                .build();
+    }
+
     @Test
     void isLike() {
 
@@ -39,20 +54,13 @@ class LikeServiceTest {
     @Test
     void 좋아요() {
         // given
-        Long memberId = 1L;
-        Long productId = 1L;
-
-        Member member = new Member(memberId, "user1");
-        Product product = new Product(productId, "product1");
-
-        when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
-        when(productRepository.findById(productId)).thenReturn(Optional.of(product));
+        when(memberRepository.findById(member.getId())).thenReturn(Optional.of(member));
+        when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
         when(likeRepository.findByMemberAndProduct(member, product)).thenReturn(Optional.empty());
-
         when(likeRepository.save(any(Like.class))).thenReturn(new Like(member, product));
 
         // when
-        Like result = likeService.like(memberId, productId);
+        Like result = likeService.like(member.getId(), product.getId());
 
         // then
         assertNotNull(result);
@@ -65,43 +73,30 @@ class LikeServiceTest {
     @Test
     void 이미_좋아요() {
         // given
-        Long memberId = 1L;
-        Long productId = 1L;
-
-        Member member = new Member(memberId, "user1");
-        Product product = new Product(productId, "product1");
         Like like = new Like(member, product);
 
-        when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
-        when(productRepository.findById(productId)).thenReturn(Optional.of(product));
+        when(memberRepository.findById(member.getId())).thenReturn(Optional.of(member));
+        when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
         when(likeRepository.findByMemberAndProduct(member, product)).thenReturn(Optional.of(like));
 
         // when, then
         assertThrows(AlreadyLikedException.class,
-                () -> likeService.like(memberId, productId));
+                () -> likeService.like(member.getId(), product.getId()));
     }
 
     @Test
     void 좋아요_취소() {
         // given
-        Long memberId = 1L;
-        Long productId = 1L;
-
-        Member member = new Member(memberId, "user1");
-        Product product = new Product(productId, "product1");
         Like like = new Like(member, product);
 
-        when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
-        when(productRepository.findById(productId)).thenReturn(Optional.of(product));
+        when(memberRepository.findById(member.getId())).thenReturn(Optional.of(member));
+        when(productRepository.findById(product.getId())).thenReturn(Optional.of(product));
         when(likeRepository.findByMemberAndProduct(member, product)).thenReturn(Optional.of(like));
 
         // when
-        likeService.unlike(memberId, productId);
+        likeService.unlike(member.getId(), product.getId());
         verify(likeRepository).delete(any(Like.class));
 
     }
 
-    @Test
-    void getLikeProduct() {
-    }
 }
