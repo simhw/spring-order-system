@@ -2,8 +2,9 @@ package com.example.shop.myproject.coupon.application;
 
 import com.example.shop.myproject.coupon.domain.Coupon;
 import com.example.shop.myproject.coupon.domain.DiscountType;
+import org.springframework.stereotype.Component;
 
-
+@Component
 public class FixedRateDiscountPolicy implements DiscountPolicy {
 
     private static final double PERCENTAGE_DIVISOR = 100.0;
